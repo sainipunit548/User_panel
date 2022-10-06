@@ -264,19 +264,19 @@
                                        <div class="row">
                                           <div class="col-12">
                                              <div class="custom-control custom-radio mb-2">
-                                                <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input">
+                                                <input type="radio" id="customRadio1" name="answer" class="custom-control-input">
                                                 <label id="option_1" class="custom-control-label fs-14 h-25px d-inline-flex align-items-center" for="customRadio1"><span class="mr-2 font-weight-bold"></span> <%= first_questons.option_1 %></label>
                                              </div>
                                              <div class="custom-control custom-radio mb-2">
-                                                <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input">
+                                                <input type="radio" id="customRadio2" name="answer" class="custom-control-input">
                                                 <label id="option_2" class="custom-control-label fs-14 h-25px d-inline-flex align-items-center" for="customRadio2"><span class="mr-2 font-weight-bold"></span> <%= first_questons.option_2 %></label>
                                              </div>
                                              <div class="custom-control custom-radio mb-2">
-                                                <input type="radio" id="customRadio3" name="customRadio" class="custom-control-input">
+                                                <input type="radio" id="customRadio3" name="answer" class="custom-control-input">
                                                 <label id="option_3"class="custom-control-label fs-14 h-25px d-inline-flex align-items-center" for="customRadio3"><span class="mr-2 font-weight-bold"></span> <%= first_questons.option_3 %></label>
                                              </div>
                                              <div class="custom-control custom-radio mb-2">
-                                                <input type="radio" id="customRadio4" name="customRadio" class="custom-control-input">
+                                                <input type="radio" id="customRadio4" name="answer" class="custom-control-input">
                                                 <label id="option_4" class="custom-control-label fs-14 h-25px d-inline-flex align-items-center" for="customRadio4"><span class="mr-2 font-weight-bold"></span> <%= first_questons.option_4 %></label>
                                              </div>
                                           </div>
@@ -303,9 +303,17 @@
                                              
                                              <a href="javascript:;"  class="btn btn-light d-inline-flex justify-content-center align-items-center py-0 px-2 border text-capitalize fs-14 h-35px"><i class="far fa-long-arrow-alt-left"></i><span class="ml-1">prev</span>  </a>
                                           </div>
-                                          <div class="col-auto pl-0 text-right">
-                                             <a href="javascript:;" onClick = "save_next()" class="btn btn-success d-inline-flex justify-content-center align-items-center py-0 px-2 border text-capitalize fs-14 h-35px"> <i class="far fa-sign-out-alt"></i> <span class="ml-1">Save &amp; Next</span></a>
+                                          <%
+                                          let p=1 
+                                          var numArr = exam_all_question.length; 
+                                          var newArr = [];  
+                                          %>
+                                          <% for (let index = 0; index < numArr; index++) {%>
+                                             <% let quest = exam_all_question;%>
+                                             <div class="col-auto pl-0 text-right" id="save_next<%=p%>"    style="<%= index == '0' ? '' : 'display:none' %>">
+                                             <a href="javascript:;"  onclick="save_next('<%= p%>', <%= JSON.stringify(quest) %>)" class="btn btn-success d-inline-flex justify-content-center align-items-center py-0 px-2 border text-capitalize fs-14 h-35px"> <i class="far fa-sign-out-alt"></i> <span class="ml-1">Save &amp; Next</span></a><% p++ %>
                                           </div>
+                                       <% } %>
                                        </div>
                                     </div>
                                  </div>
@@ -362,167 +370,13 @@
                                                       var newArr = [];  
                                                       %>
                                                       <% for (let index = 0; index < numArr; index++) {%>
+                                                         <% let inArr = exam_all_question;%>
                                                          <div class="col text-center py-2 px-0">
-                                                             <% let inArr = exam_all_question;%>
                                                            
-                                                         <a href="javascript:;" id="btn_color<%= i%>" onClick="question_count('<%= inArr[index]._id %>','<%= i%>', <%= JSON.stringify(inArr) %>)" class="<btn btn-white border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center"><%= i++ %></a>
+                                                         <a href="javascript:;" id="btn_color<%= i%>" onClick="question_count('<%= inArr[index]._id %>','<%= i%>', <%= JSON.stringify(inArr) %>)" class="<<%= index==0 ? 'btn btn-blue':'btn btn-white' %>  border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center"><%= i++ %></a>
                                                       </div>
                                                    <% } %>
-                                                      <!-- <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-success border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">2</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-danger border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">3</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-success border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">4</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-danger border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">5</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-success border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">6</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-success border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">7</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-success border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">8</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-success border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">9</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-success border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">10</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-success border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">11</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-blue border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">12</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="position-relative overflow-unset btn btn-orange border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center"> 
-                                                         <span class="review_mark fs-14 position-absolute top-n6px right-0px"><i class="fas fa-check text-success font-weight-bold"></i></span>   
-                                                         13</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-orange border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">14</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-light border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">15</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-light border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">16</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-light border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">17</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-light border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">18</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-light border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">19</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-light border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">20</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-light border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">21</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-light border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">22</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-light border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">23</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-light border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">24</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-light border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">25</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-light border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">26</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-light border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">27</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-light border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">28</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-light border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">29</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-light border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">30</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-light border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">31</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-light border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">32</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-light border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">33</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-light border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">34</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-light border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">35</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-light border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">36</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-light border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">37</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-light border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">38</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-light border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">39</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-light border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">40</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-light border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">41</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-light border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">42</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-light border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">43</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-light border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">44</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-light border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">45</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-light border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">46</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-light border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">47</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-light border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">48</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-light border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">49</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-light border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">50</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-light border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">51</a>
-                                                      </div>
-                                                      <div class="col text-center py-2 px-0">
-                                                         <a href="javascript:;" class="btn btn-light border p-0 mx-auto rounded-pill fs-14 w-35px h-35px d-grid align-items-center justify-content-center">52</a>
-                                                      </div> -->
+                     
                                                    </div>
                                                 </div>
                                              </div>
@@ -1010,7 +864,7 @@
    }
 
 function question_count(id,i,questions){
-      questions.forEach((element,index) => {
+     questions.forEach((element,index) => {
          $(`#btn_color${index+1}`).removeClass('btn btn-blue').addClass('btn btn-white')
       });
       $(`#btn_color${i}`).removeClass('btn btn-white').addClass('btn btn-blue')
@@ -1034,6 +888,10 @@ function question_count(id,i,questions){
 }
 
 function prev_data(i, questions){
+   questions.forEach((element,index) => {
+         $(`#btn_color${index+2}`).removeClass('btn btn-blue').addClass('btn btn-white')
+      });
+      $(`#btn_color${i-1}`).removeClass('btn btn-white').addClass('btn btn-blue')
    let id = questions[i-2]._id
    const res = questions[i-2];
    $("#ques_count").html(`${res.question_name}`);
@@ -1053,6 +911,38 @@ function prev_data(i, questions){
       $("#prev").hide();
    }
      
+}
+
+function save_next(i,questions)
+{
+   console.log("asdfgh",i)
+   // console.log("asdfgh",index)
+   console.log("---------->",questions)
+   // var i = 1;
+   // questions.forEach((element,index) => {
+   //       $(`#btn_color${index+1}`).removeClass('btn btn-blue').addClass('btn btn-white')
+   //       i++;
+   //    });
+   //    console.log(i);
+   //    $(`#btn_color${i}`).removeClass('btn btn-white').addClass('btn btn-blue')
+   // const res = questions[i-1];
+   // $("#ques_count").html(`${res.question_name}`);
+   // $("#option_1").html(`${res.option_1}`);
+   // $("#option_2").html(`${res.option_2}`);
+   // $("#option_3").html(`${res.option_3}`);
+   // $("#option_4").html(`${res.option_4}`);
+   // $("#question").html(`Question ${i}`)
+    
+   // if(i>1){
+   //    $("#prev").show();
+   //    $( "#prev" ).unbind();
+   //    $( "#prev" ).click(function(){
+   //       prev_data(i,questions);
+   //    })    
+   // }else{
+   //    $("#prev").hide();
+   // }     
+   
 }
 
 </script>

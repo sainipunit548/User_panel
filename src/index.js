@@ -4,6 +4,8 @@ const bcrypt = require("bcryptjs");
 const ejs = require("ejs");
 const path = require("path");
 const app = express();
+const bodyParser = require('body-parser');
+request = require('request');
 const dbconn = require("./db/conn");
 const User = require("./models/user");
 const Exam_Data = require("./models/exam");
@@ -12,6 +14,7 @@ const Question_Data = require("./models/question");
 app.use(express.urlencoded({
     extended:true
 }))
+app.use(bodyParser.json());
 
 const PORT = process.env.PORT;
 app.set("view engine", "ejs");
@@ -67,22 +70,45 @@ app.post("/register_create", async (req, res) => {
 // start login router
 
 app.post("/login_create", async (req, res) => {
-    try {
+    // try {
         const user_login = await User.findOne({ email:req.body.email });
         if (!user_login) {
-            res.redirect("/");
+            return res.redirect("/");
         }
        
         const password_match = await bcrypt.compare(req.body.password, user_login.password);
         if (!password_match) {
-            res.redirect("/");
+            return res.redirect("/");
         }
-        res.redirect("/exam_select");
-    }
-    catch (err) {
-        console.log(err)
-        res.send(err);
-    }
+
+        // Code For ReCaptcha
+        if(req.body['g-recaptcha-response'] === undefined || req.body['g-recaptcha-response'] === '' || req.body['g-recaptcha-response'] === null)
+        {
+          return res.json({"responseError" : "Please select captcha first"});
+        }
+        const secretKey = "6Ld0ZFwiAAAAAKKd9ul9vuQ3Gu9SE9IbSAY7RPmm";
+      
+        const verificationURL = "https://www.google.com/recaptcha/api/siteverify?secret=" + secretKey + "&response=" + req.body['g-recaptcha-response'] + "&remoteip=" + req.connection.remoteAddress;
+      
+        request(verificationURL,function(error,response,body) {
+          body = JSON.parse(body);
+      
+          if(body.success !== undefined && !body.success) {
+            return res.json({"responseError" : "Failed captcha verification"});
+            }
+          else {
+            return res.redirect("/exam_select");
+            }
+        });
+        
+
+
+        
+    // }
+    // catch (err) {
+    //     console.log(err)
+    //     res.send(err);
+    // }
 })
 
 app.get("/exam_select", async (req, res) => {
